@@ -139,30 +139,26 @@ public class MainVerticle extends AbstractVerticle
 												.getJsonArray("daily").stream()
 												.limit(days)
 												.map(JsonObject.class::cast)
-												.map(jsonObject ->
-												{
-													System.out.println(jsonObject.getLong("dt"));
-													return new JsonObject()
-														.put(
-															"date",
-															DATE_FORMATTER_FOR_PRINTING.format(new Date(jsonObject.getLong("dt") * 1000))
-														)
-														.put(
-															"dayTemp",
-															jsonObject.getJsonObject("temp")
-																.getDouble("day")
-														)
-														.put(
-															"minTemp",
-															jsonObject.getJsonObject("temp")
-																.getDouble("min")
-														)
-														.put(
-															"maxTemp",
-															jsonObject.getJsonObject("temp")
-																.getDouble("max")
-														);
-												})
+												.map(jsonObject -> new JsonObject()
+													.put(
+														"date",
+														DATE_FORMATTER_FOR_PRINTING.format(new Date(jsonObject.getLong("dt") * 1000))
+													)
+													.put(
+														"dayTemp",
+														jsonObject.getJsonObject("temp")
+															.getDouble("day")
+													)
+													.put(
+														"minTemp",
+														jsonObject.getJsonObject("temp")
+															.getDouble("min")
+													)
+													.put(
+														"maxTemp",
+														jsonObject.getJsonObject("temp")
+															.getDouble("max")
+													))
 												.toList())
 										) :
 									"Error: max days allowed are 5, got " + days);
